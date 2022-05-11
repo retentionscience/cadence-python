@@ -15,7 +15,15 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class WorkerOptions:
-    pass
+    max_concurrent_activity_execution_size: int = None
+    worker_activities_per_second: float = None
+    max_concurrent_local_activity_execution_size: int = None
+    worker_local_activities_per_second: float = None
+    task_list_activities_per_second: float = None
+    max_concurrent_activity_task_pollers: int = None
+    max_concurrent_decision_task_execution_size: int = None
+    worker_decision_tasks_per_second: float = None
+    max_concurrent_decision_task_pollers: int = None
 
 
 def _find_interface_class(impl_cls) -> type:
@@ -62,7 +70,7 @@ class Worker:
     port: int = None
     domain: str = None
     task_list: str = None
-    options: WorkerOptions = None
+    options: WorkerOptions = WorkerOptions()
     activities: Dict[str, Callable] = field(default_factory=dict)
     workflow_methods: Dict[str, Tuple[type, Callable]] = field(default_factory=dict)
     service: WorkflowService = None
